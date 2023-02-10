@@ -1,0 +1,110 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Enroute Vehicles'" [icon]="'fa-edit'"></app-page-header>
+  <button (click)="toggle()" id="bt" style="background-color:#FFC10E" class="btn">
+      {{buttonName}}
+  </button>
+  <br/>
+  <br/>
+  <ng-container *ngIf="show">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="8" >
+        <agm-marker *ngFor="let x of customerdetail | filterBy:searchbox; let i = index "  [latitude]="x.currentLat" [longitude]="x.currentLong" 
+        (mouseOver)="onMouseOver(infoWindow, $event)" (mouseOut)="onMouseOut(infoWindow, $event)" (markerClick)="openWindow(x.VEHICLENO)" 
+        [iconUrl]='{"url": "assets/images/truck.png","scaledSize": {"height": 50, "width": 40}}'>
+          <agm-info-window [isOpen]="isInfoWindowOpen(x.VEHICLENO)" [disableAutoPan]="false" #infoWindow >
+              <div>
+                  VehicleNo : <th scope="row">{{x.VEHICLENO}}</th>
+                  Orgin/Address : <th scope="row">{{x.Originaddress}}</th>
+                  Destination/Address : <th scope="row">{{x.destinationAddress}}</th>
+                  Current Location : <th scope="row">{{x.currentLocation}}</th>
+                  Distance : <th scope="row">{{x.Distance}}</th>
+              </div>
+          </agm-info-window>
+          
+        </agm-marker>
+      </agm-map>
+    </ng-container>
+      <br/>
+      <div class="row">
+          <div class="col-xl-4 text-xs-center">
+              <div class="form-group has-search">
+                  <span class="fa fa-search form-control-feedback"></span>
+                  <input class="form-control mr-sm-2" type="text" placeholder="Orgin Search" [(ngModel)]="test1" />
+              </div>  
+          </div>
+          <div class="col-xl-4 text-xs-center">
+              <div class="form-group has-search">
+                  <span class="fa fa-search form-control-feedback"></span>
+                  <input class="form-control mr-sm-2" type="text" placeholder="LR Search" [(ngModel)]="test2" />
+              </div>
+          </div>
+          <div class="col-xl-4 text-xs-center">
+              <div class="form-group has-search">
+                  <span class="fa fa-search form-control-feedback"></span>
+                  <input class="form-control" type="text" placeholder="Vehicle Search" [(ngModel)]="test" />
+          </div>  
+          </div>
+      </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <br/>
+<div class="table-responsive">    
+ <table class="table table-hover" cellspacing="0" width="100%">       
+            <thead class="thead-light">
+                    <tr [(ngModel)]="searchbox">
+                            <th>Origin | Destination</th>
+                            <th>Indent Date (DD/MM/YY)</th>
+                            <th>LR No | LR Date (DD/MM/YY)</th>
+                            <th>Total Distance</th>
+                            <th>Actual Departure (DD/MM/YY hh:mm)</th>
+                            <th>Agreement Transit Time (Days)(</th>
+                            <th>EDD (DD/MM/YY)</th>
+                            <th>Vehicle No</th>
+                            <th>LR Status</th>
+                            <th>Current GPS Location (Recorded at Time)</th>
+                            <th>Remaining Distance</th>
+                            <th>ETA (DD/MM/YY hh:mm)</th>
+                            <th>Progress</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let x of customerdetail |filterBy: {VEHICLENO : test, LRNO : test2, Origin : test1} | paginate: { itemsPerPage: 10, currentPage: p } let i = index" (click)="openWindow(x.VEHICLENO)"
+                        [ngClass] = "{'highlight' : x.VEHICLENO == openedWindow}">
+                            <th scope="row">{{x.Origin}} | {{x.Destination}}</th>
+                            <td>{{x.Indentdt}}</td>
+                            <th scope="row">{{x.LRNO}} | {{x.LRDT}}</th>
+                            <td>{{x.RUTKM}}</td>
+                            <td>{{x.Actual_Departure}}</td>
+                            <td>{{x.Actual_tat_days}}</td>
+                            <td>{{x.Actual_EDD}}</td>
+                            <td>{{x.VEHICLENO}}</td>
+                            <td>{{x.CurrentStatus}}</td>
+                            <td>{{x.currentLocation}}</td>
+                            <td>{{x.RemaningDistance}}</td>
+                            <td>{{x.Project_edd}}</td>              
+                <td>
+                  <div style="margin: auto; text-align: center; width: 100%;" title="10%"><div style="text-align: left; margin: 2px auto; font-size: 0px; line-height: 0px; border: solid 1px #AAAAAA; background: #DDDDDD; "><div style="font-size: 0px; line-height: 0px; height: 6px; " [style.width] = "x.Actrual_Progress1" [style.min-width] = "x.Actrual_Progress1" [style.max-width] = "x.Actrual_Progress1" [style.background-color]="x.Image_Colour"><!----></div></div><div style="font-size: 8pt; font-family: monospace; ">{{x.Actrual_Progress1}}</div></div>
+                </td>                         
+            </tr>
+            </tbody>
+        </table>
+    </div> 
+  
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      
+</div>
+<div class="row">
+        <div class="col-xl-2 text-xs-center">
+    <div style="font-size: 10pt; font-family: monospace; "><b>Delay</b></div>
+      <div style="font-size: 0px; line-height: 0px; height: 8px; width:100%; min-width:100%; max-width:100%; background-color: #dc3545 ">
+        </div>        
+        </div>
+        <div class="col-xl-2 text-xs-center">
+                <div style="font-size: 10pt; font-family: monospace; "><b>Before Time</b></div>
+      <div style="font-size: 0px; line-height: 0px; height: 8px; width:100%; min-width:100%; max-width:100%; background-color: #00008B "></div>
+      </div>
+      <div class="col-xl-2 text-xs-center">
+            <div style="font-size: 10pt; font-family: monospace; "><b>On Time</b></div>
+      <div style="font-size: 0px; line-height: 0px; height: 8px; width:100%; min-width:100%; max-width:100%; background-color: #00FF00 "></div>
+</div>
+  </div>
+
+

@@ -1,0 +1,43 @@
+agm-map {
+    height: 400px;
+    position: relative;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px; 
+    z-index:1;
+  }
+  .locationSelector {
+    width: 20%;
+  }
+  table tr.highlight {
+    background-color: #007bff !important;
+    color: #110303;
+  }
+  table tr.activecolor {
+    background-color: #007bff;
+    color: #040a11;
+    border-color:#040a11;
+  }
+  /* Styles for wrapping the search box */
+  
+  .main {
+    width: 30%;
+  }
+  
+  /* Bootstrap 4 text input with search icon */
+  
+  .has-search .form-control {
+    padding-left: 2.375rem;
+  }
+  
+  .has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+  }

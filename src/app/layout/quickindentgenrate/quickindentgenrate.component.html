@@ -1,0 +1,148 @@
+<!-- <app-page-header [heading]="'Quick Indent Generated'" [icon]="'fa-edit'"></app-page-header> -->
+<p *ngIf="dataSaved" style="color:rgb(0, 128, 0);font-size:20px;font-weight:bold" Class="success" align="left">  
+    {{massage}}  
+  </p>
+<div class="col-12 col-md-12">
+    <div class="card">
+        <div>
+            &nbsp;
+            <button style="margin: 10px;" class="btn btn-success" (click)="Mopen(Entrymodal)">Import CSV</button> &nbsp;
+            <button style="margin: 10px;" class="btn btn-primary" (click)="downloadCSV()">Download CSV Template</button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <form #form="ngForm" (ngSubmit)="SaveData(form,$event)" novalidate>
+                <table class="table table-bordered table-striped table-highlight">
+                    <thead class="header">
+                        <tr>
+                            <th width="50">Pickup City</th>
+                            <th width="80">Pickup Address</th>
+                            <th width="50">Destination</th>
+                            <th width="50">Vehicle Type</th>
+                            <th width="50">Loadability</th>
+                            <th width="50">Delete Row</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of blankRowArray; let i = index">
+                            <td>
+                                <select [(ngModel)]="blankRowArray[i].from" [ngModelOptions]="{standalone: true}"
+                                    class="form-control wp-70" required>
+                                    <option [ngValue]="0">--Choose--
+                                    </option>
+                                    <option *ngFor="let month of fromcity" value={{month.loc}}>{{month.locname}}
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div> User Id is required. </div>
+                                </div>
+                            </td>
+                            <td>
+                                <select [(ngModel)]="blankRowArray[i].address" [ngModelOptions]="{standalone: true}"
+                                    class="form-control wp-70" required>
+                                    <option [ngValue]="0">--Choose--
+                                    </option>
+                                    <option *ngFor="let adds of address | filterBy : {city : blankRowArray[i].from}"
+                                        value={{adds.typesd}}>{{adds.addressname}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="crown" [(ngModel)]="blankRowArray[i].to" class="form-control wp-80"
+                                    [ngModelOptions]="{standalone: true}" required>
+                                    <option [ngValue]="0">--Choose--</option>
+                                    <option
+                                        *ngFor="let month of tocity | filterBy : {from_loccode : blankRowArray[i].from}"
+                                        value={{month.loc}}>{{month.locname}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select [(ngModel)]="blankRowArray[i].vehiclesize" [ngModelOptions]="{standalone: true}"
+                                    class="form-control wp-80" required>
+                                    <option [ngValue]="0">--Choose--
+                                    </option>
+                                    <option
+                                        *ngFor="let month of vehicletype | filterBy : {from_loccode : blankRowArray[i].from , to_loccode : blankRowArray[i].to}"
+                                        value={{month.ftltypeid}}>
+                                        {{month.ftltype}}</option>
+                                </select>
+                            </td>
+                            <td> <select [(ngModel)]="blankRowArray[i].loadtype" [ngModelOptions]="{standalone: true}"
+                                    class="form-control wp-80" required>
+                                    <option [ngValue]="0">--Choose--
+                                    </option>
+                                    <option
+                                        *ngFor="let month of loadability | filterBy : {from_loccode : blankRowArray[i].from , to_loccode : blankRowArray[i].to, ftltype: blankRowArray[i].vehiclesize}"
+                                        value={{month.loadid}}>
+                                        {{month.loadtype}}</option>
+                                </select>
+                            </td>
+
+                            <td align="center">
+                                <button (click)="deleteRow(i)" type="submit" id="Delete" value="Delete" class="btn btn-info">Delete Row</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <div class="row">
+                        <div class="col-lg-12">
+                        <button style="margin: 5px;" type="submit" id="NewRow" value="NewRow" class="btn btn-warning float-right" (click)="addBlankRow()">Add Blank
+                            Row</button>
+                        <button style="margin: 5px;" type="submit" id="Submit" value="Submit" class="btn btn-warning float-left">Submit</button>
+                    </div>                   
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #Entrymodal let-modal>
+    <div class="modal-header" style="height: 60px; background-color: #1C2C5E; color: #ffffff;">
+        <h4 class="modal-title" id="modal-basic-title">Import Indent</h4>
+        <button type="button" class="close" style="color: #ffffff;" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <li style="color: red;">Indent details to be filled in specific template</li>
+        <li style="color: red;">All columns are mandatory</li>
+        <hr>
+        <form #f="ngForm" (ngSubmit)="UploadSaveData(f,$event)">
+            <div class="form-group">
+                <input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)"
+                    accept=".csv" id="Upload" value="Upload" />
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-hover" *ngIf="records.length > 0">
+                        <thead class="header">
+                            <tr>
+                                <th>Pickup City </th>
+                                <th>Pickup Address</th>
+                                <th>Destination</th>
+                                <th>Vehicle Type</th>
+                                <th>Loadability</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let record of records;let i = index;">
+                                <td> <span>{{record.PickupCity}}</span> </td>
+                                <td> <span>{{record.PickupAddress}}</span> </td>
+                                <td> <span>{{record.Destination}}</span> </td>
+                                <td> <span>{{record.VehicleType}}</span> </td>
+                                <td> <span>{{record.Loadability}}</span> </td>
+                                <td style="color:red;"> <span>{{record.Errordesc}}</span> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="Submit" value="Submit" >Submit</button>
+            </div>
+        </form>
+    </div>
+   
+</ng-template>

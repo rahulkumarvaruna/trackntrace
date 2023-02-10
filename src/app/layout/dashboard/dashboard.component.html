@@ -1,0 +1,510 @@
+<div [@routerTransition]>
+    <!-- <app-page-header [heading]="'Home'" [icon]="'fa fa-home'"></app-page-header> -->
+    <div class="row">
+        <div class="col-md-12" height=20px;>            
+            <ngb-carousel>
+                <ng-template ngbSlide *ngFor="let slider of sliders">
+                    <img class="img-fluid mx-auto d-block" height=10px; [src]="slider.imagePath"
+                        alt="Random first slide" width="100%">
+                    <div class="carousel-caption">
+                        <h3>{{slider.label}}</h3>
+                        <p>{{slider.text}}</p>
+                    </div>
+                </ng-template>
+            </ngb-carousel>
+        </div>
+    </div>
+
+    <div class="news bg-success">
+        <span>Latest News</span>
+        <span class="text1">
+            <marquee behavior="scroll" scrollamount="2" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+                MCPI recently recognised and awarded us as 'Safest Transporter' during their Annual Safety Week
+            </marquee>
+        </span>
+    </div>
+    <div class="new">
+        <marquee behavior="alternate" scrollamount="2"><a class="wbg" href="javascript:void(0)" (click)="ELRopen(myELR)" target="_self"><b>
+                    <font color="maroon">E LR Docket Details</font>
+                </b> - Click for details...&nbsp;</a><img border="0" src="assets/images/New47.gif"></marquee>
+    </div>
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-warning">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa fa-truck fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right" *ngFor="let x of pcounter">
+                            <div class="warning" style="font-weight: bolder;">{{x.cntr_indent}}</div>
+                            <div class="warning">Today's Placement </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="card-footer" href="javascript:void(0)" (click)="popen(pmymodal)">
+                    <div>
+                        <span class="a">View Details</span>
+                        <a class="float-right card-inverse" href="javascript:void(0)">
+                            <span><i class="fa fa-arrow-circle-right"></i></span>
+                        </a>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+
+            <div class="card text-white bg-success">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa fa-truck fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right" *ngFor="let x of hcounter">
+                            <div class="success" style="font-weight: bolder;">{{x.cntr_data}}</div>
+                            <div class="success">Placement / T - History</div>
+                        </div>
+                    </div>
+                </div>
+                <a class="card-footer" href="javascript:void(0)" (click)="open(mymodal)">
+                    <div>
+                        <span class="float-left success">View Details</span>
+                        <a class="float-right card-inverse" href="javascript:void(0)">
+                            <span><i class="fa fa-arrow-circle-right"></i></span>
+                        </a>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-warning">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa fa-truck fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right" *ngFor="let x of ecount">
+                            <div class="warning" style="font-weight: bolder;">{{x.cntr_indent}}</div>
+                            <div class="warning">Total Enroute</div>
+                        </div>
+                    </div>
+                </div>
+                <a class="card-footer" href="javascript:void(0)" (click)="Eopen(Emymodal)">
+                    <div>
+                        <span class="a">View Details</span>
+                        <a class="float-right card-inverse" href="javascript:void(0)">
+                            <span><i class="fa fa-arrow-circle-right"></i></span>
+                        </a>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-info">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa fa-truck fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right" *ngFor="let x of sucount">
+                            <div class="warning" style="font-weight: bolder;">{{x.cntr_su}}</div>
+                            <div class="warning">Standing For Unloading</div>
+                        </div>
+                    </div>
+                </div>
+                <a class="card-footer" href="javascript:void(0)" (click)="Mopen(Mmodal)">
+                    <div>
+                        <span class="float-left a">View Details</span>
+                        <a class="float-right card-inverse" href="javascript:void(0)">
+                            <span><i class="fa fa-arrow-circle-right"></i></span>
+                        </a>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #mymodal let-modal>
+    <div class="modal-header" style="height: 60px; background-color: #1C2C5E; color: #ffffff;">
+        <h4 class="modal-title" id="modal-basic-title">Placement & Transit History</h4>
+        <button type="button" style="color: #ffffff;" class="close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-md-2">
+                <select class="form-control" [(ngModel)]='nrSelect' (change)="onSelectMonth($event.target.value)">
+                    <option *ngFor="let month of months" value={{month.id}} selected="2">
+                        {{month.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <select class="form-control" [(ngModel)]='nryear' (change)="onSelectYear($event.target.value)">
+                    <option *ngFor="let year of yeardata" value={{year.Year}} selected="2">
+                        {{year.finyear}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" id="txtsearchfrom" placeholder="From" [(ngModel)]="test1" />
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" class="form-control" id="txtsearchto" placeholder="To" [(ngModel)]="test" />
+            </div>
+            <div class="form-group col-md-2">
+                <select class="form-control" id="sel1" (change)="onSelecttype($event.target.value)">
+                    <option value="0">All</option>
+                    <option value="1">Unloaded</option>
+                    <option value="2">SFU</option>
+                    <option value="3">In - Transit</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputState">&nbsp;</label>
+                <button type="button" class="btn bg-warning" (click)="exportIndentXLSX()">XLSX</button>
+            </div>
+        </div>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-hover" cellspacing="0" width="100%">
+                <thead class="header">
+                    <tr>
+                        <th>Date</th>
+                        <th>LR No</th>
+                        <th>From City | To City</th>
+                        <th>Vehicle No</th>
+                        <th>ETA / ADD</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of hdata | filterBy: {from_loc : test1, to_loc: test }">
+                        <th scope="row">{{ x.placementdt }}</th>
+                        <th scope="row">{{ x.DockNO }}</th>
+                        <th scope="row">{{x.from_loc}} | {{x.to_loc}}</th>
+                        <td scope="row">{{x.vehicleno}}</td>
+                        <th scope="row">{{x.latesteta}}</th>
+                        <th scope="row"
+                            [ngClass]="x.VehicleStatus=='Unloaded'?'highlight':x.VehicleStatus == 'In-Transit'?'activecolor':'cancellcolor'">
+                            {{x.VehicleStatus}} <br /> <i style="color:red"> {{x.actionremarks}} </i> </th>
+                        <th scope="row"><a href="javascript:void(0)"
+                                (click)="Mapopen(Mapmodal,x.Longitute,x.latitude,x.Location_POI,x.ETA,x.latestatus,x.vehicleno)"><i
+                                    class={{x.maps}} style="color:red"></i></a></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #pmymodal let-modal>
+    <div class="modal-header" style="height: 60px; background-color: #1C2C5E; color: #ffffff;">
+        <h4 class="modal-title" id="modal-basic-title">Placement Detail</h4>
+        <button type="button" style="color: #ffffff;" class="close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <button type="button" (click)="exportPlacementXLSX()"><i class="fa fa-download"
+                style="font-size:30px;color:#1C2C5E"></i></button>
+        <a class="close" class="float-right card-inverse" href="javascript:void(0)" (click)="EntryPage(Entrymodal)">
+            <span class="float-left a"><u> <img src="assets/images/arrow.gif" /> Click here to view missing Indents
+                </u> </span>
+        </a>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-hover" cellspacing="0" width="100%">
+                <thead class="header">
+                    <tr>
+                        <th>Sr.No</th>
+                        <th>Indent Generation Date</th>
+                        <th>From City | To City</th>
+                        <th>Placement Date</th>
+                        <th>Vehicle Type</th>
+                        <th>Vehicle No</th>
+                        <th>LR No</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                        <!-- <th>Tentative Placement Date / Time</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of placementdtl">
+                        <th scope="row">{{ x.row_num }}</th>
+                        <th scope="row">{{x.entrydt}}</th>
+                        <th scope="row">{{x.from_loc}} | {{x.to_loc}}</th>
+                        <th scope="row">{{x.placementdt}}</th>
+                        <th scope="row">{{x.ftltype}}</th>
+                        <th scope="row">{{x.vehicleno}}</th>
+                        <th scope="row">{{x.dockno}}</th>
+                        <th scope="row"
+                            [ngClass]="x.Status=='Placement Done'?'highlight':x.Status == 'Vehicle Assigned'?'activecolor':'cancellcolor'">
+                            {{x.Status}}</th>
+                        <th scope="row"><a href="javascript:void(0)"
+                                (click)="Mapopen(Mapmodal,x.Longitute,x.latitude,x.Location_POI,x.ETA,x.latestatus,x.vehicleno)"><i
+                                    class={{x.maps}} style="color:red"></i></a></th>
+                        <!-- <th scope="row" [ngClass]="x.Status=='Placement Done'?'highlight':x.Status == 'Vehicle Assign'?'activecolor':'cancellcolor'">{{x.epd}}</th> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #Emymodal let-modal>
+    <div class="modal-header" style="height: 60px; background-color: #1C2C5E; color: #ffffff;">
+        <h4 class="modal-title" id="modal-basic-title">Enroute Detail</h4>
+        <button type="button" style="color: #ffffff;" class="close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <button type="button" (click)="exportEnrouteXLSX()"><i class="fa fa-download"
+                style="font-size:30px;color:#1C2C5E"></i></button>
+
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-hover" cellspacing="0" width="100%">
+                <thead class="header">
+                    <tr>
+                        <th>Orgin | Destination</th>
+                        <th>LR No</th>
+                        <th>Departure Date</th>
+                        <th>EDD</th>
+                        <th>Vehicle No</th>
+                        <th>Current GPS Location</th>
+                        <th>ETA (DD/MM/YY hh:mm)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of enroutedtl">
+                        <th scope="row">{{x.Origin}} | {{x.Destination}}</th>
+                        <th scope="row">{{x.LRNO}}</th>
+                        <th scope="row">{{x.Actual_Departure}}</th>
+                        <th scope="row">{{x.Actual_EDD}}</th>
+                        <th scope="row">{{x.VEHICLENO}}</th>
+                        <th scope="row">{{x.currentLocation}}</th>
+                        <th scope="row">{{x.Project_edd}}</th>
+                        <th scope="row"><a href="javascript:void(0)"
+                                (click)="EMapopen(EMapmodal,x.currentLong,x.currentLat,x.Originaddress,x.destinationAddress,x.RemaningDistance,x.currentLocation,x.VEHICLENO)"><i
+                                    class="fa fa-map-marker fa-2x" style="color:red"></i></a></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #Mmodal let-modal>
+    <div class="modal-header" style="height: 60px; background-color: #1C2C5E; color: #ffffff;">
+        <h4 class="modal-title" id="modal-basic-title">Standing For Unloading</h4>
+        <button type="button" style="color: #ffffff;" class="close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-xl-4 text-xs-center">
+                <input class="form-control mr-sm-4" type="text" placeholder="From City Search" [(ngModel)]="stest1" />
+            </div>
+            <div class="col-xl-4 text-xs-center">
+                <input class="form-control mr-sm-4" type="text" placeholder="To City Search" [(ngModel)]="stest" />
+            </div>
+            <div class="col-xl-4 text-xs-center">
+                <span class="form-control-feedback"></span>
+                <button type="button" class="btn bg-warning" (click)="exportMisXLSX()">Download XLSX</button>
+            </div>
+        </div>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-hover" cellspacing="0" width="100%">
+                <thead class="header">
+                    <tr>
+                        <th>LR No</th>
+                        <th>LR Date</th>
+                        <th>From City | To City</th>
+                        <th>Reached / Arrival <br /> Date & Time</th>
+                        <th>Standing hours/days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of sudetails |filterBy: {from_loc : stest1, to_loc : stest}">
+                        <th scope="row">{{ x.dockno }}</th>
+                        <th scope="row">{{x.LRDate}}</th>
+                        <th scope="row">{{x.from_loc}} | {{x.to_loc}}</th>
+                        <th scope="row">{{x.richeddate}}</th>
+                        <th scope="row">{{x.tothrs}}/{{x.days_to_held}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+
+<ng-template #Entrymodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Query</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <form class="form" [formGroup]="QueryForm"
+            (ngSubmit)="onSubmit(from.value,to.value,mobileno.value,person.value)">
+            <div class="form-group">
+                <p *ngIf="dataSaved" style="color:rgb(0, 128, 0);font-size:20px;font-weight:bold" Class="success"
+                    align="left">
+                    {{massage}}
+                </p>
+                <hr>
+                <label for="from">From City</label>
+                <div class="input-group">
+                    <input type="text" formControlName="txtfrom" #from ngModel name="from"
+                        class="form-control input-underline input-lg" required
+                        [ngClass]="{'is-invalid':QueryForm.get('txtfrom').touched && QueryForm.get('txtfrom').invalid}">
+                    <div class="invalid-feedback">
+                        <div> From City is Required. </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="to">To City</label>
+                <div class="input-group">
+                    <input type="text" formControlName="txtto" #to ngModel name="to"
+                        class="form-control input-underline input-lg"
+                        [ngClass]="{'is-invalid':QueryForm.get('txtto').touched && QueryForm.get('txtto').invalid}">
+                    <div class="invalid-feedback">
+                        <div> To City is Required. </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="from">Mobile No</label>
+                <div class="input-group">
+                    <input type="text" formControlName="txtmobileNo" #mobileno ngModel name="mobileno"
+                        class="form-control input-underline input-lg" (keypress)="numberOnly($event)"
+                        [ngClass]="{'is-invalid':QueryForm.get('txtmobileNo').touched && QueryForm.get('txtmobileNo').invalid}">
+                    <div class="invalid-feedback">
+                        <div> Mobile No is Required. </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="from">Person Name</label>
+                <div class="input-group">
+                    <input type="text" formControlName="txtperson" #person ngModel name="person"
+                        class="form-control input-underline input-lg"
+                        [ngClass]="{'is-invalid':QueryForm.get('txtperson').touched && QueryForm.get('txtperson').invalid}">
+                    <div class="invalid-feedback">
+                        <div> Mobile No Is Required. </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- (click)="modal.close('Save click')" -->
+                <button type="submit" id="btnsubmit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>
+
+<ng-template #Mapmodal let-modal>
+    <div class="modal-body">
+        <ng-container>
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="8">
+                <agm-marker [latitude]="latitude" [longitude]="Longitute" (markerClick)="openWindow(Vehicle)"
+                    [iconUrl]='{"url": "assets/images/truck.png","scaledSize": {"height": 50, "width": 40}}'>
+                    <agm-info-window [isOpen]="isInfoWindowOpen(Vehicle)" [disableAutoPan]="false" #infoWindow>
+                        <div>
+                            VehicleNo : <th scope="row">{{Vehicle}}</th>
+                            Current Location : <th scope="row">{{Location_POI}}</th>
+                            ETA : <th scope="row">{{ETA}}</th>
+                        </div>
+                    </agm-info-window>
+                </agm-marker>
+            </agm-map>
+        </ng-container>
+    </div>
+</ng-template>
+<ng-template #EMapmodal let-modal>
+    <div class="modal-body">
+        <ng-container>
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="8">
+                <agm-marker [latitude]="latitude" [longitude]="Longitute" (markerClick)="openWindow(Vehicle)"
+                    [iconUrl]='{"url": "assets/images/truck.png","scaledSize": {"height": 50, "width": 40}}'>
+                    <agm-info-window [isOpen]="isInfoWindowOpen(Vehicle)" [disableAutoPan]="false" #infoWindow>
+                        <div>
+                            VehicleNo : <th scope="row">{{Vehicle}}</th>
+                            Orgin/Address : <th scope="row">{{Originaddress}}</th>
+                            Destination/Address : <th scope="row">{{destinationAddress}}</th>
+                            Current Location : <th scope="row">{{Location_POI}}</th>
+                            Distance : <th scope="row">{{ETA}}</th>
+                        </div>
+                    </agm-info-window>
+                </agm-marker>
+            </agm-map>
+        </ng-container>
+    </div>
+</ng-template>
+
+<ng-template #myELR let-modal>
+    <div class="modal-header" style="height: 60px; background-color: #1C2C5E; color: #ffffff;">
+        <h4 class="modal-title" id="modal-basic-title">ELR Details</h4>
+        <button type="button" style="color: #ffffff;" class="close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-hover" cellspacing="0" width="100%">
+                <thead class="header">
+                    <tr>
+                        <th>Orgin</th>
+                        <th>Destination</th>
+                        <th>Vehicle No</th>
+                        <th>LR No</th>
+                        <th>View(ELR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of ELR">
+                        <th scope="row">{{ x.from_loc }}</th>
+                        <th scope="row">{{ x.to_loc }}</th>
+                        <th scope="row">{{x.vehicleno}}</th>
+                        <td scope="row">{{x.dockno}}</td>
+                        <td scope="row"><a [href]="x.statuselr==='View'?x.elr:null" target="_blank">{{x.statuselr}}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>

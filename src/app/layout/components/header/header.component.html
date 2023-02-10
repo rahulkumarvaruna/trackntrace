@@ -1,0 +1,255 @@
+<nav class="navbar navbar-expand-lg fixed-top">
+    <a class="navbar-brand" href="dashboard"><img src="assets/images/logo.png" width=170px /> </a>
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+        <!-- <span class="navbar-toggler-icon"></span> -->
+        <i class="fa fa-bars text-muted" aria-hidden="true"></i>
+    </button>
+    <div class="collapse navbar-collapse">
+
+        <ul class="navbar-nav ml-auto">
+            <form class="form-inline my-2 my-lg-0">
+                
+                <input #box class="form-control mr-sm-2" type="text"
+                    placeholder="{{ 'Track LR / Shipment' | translate }}" id="txtlr" 
+                    name="txtlr" formControlName="txtlr" #txtlr (change)="CheckLR(txtlr.value)" 
+                   />                   
+                    <div *ngIf="LRExist != ''" class="alert alert-danger alert-dismissible fade show">
+                        {{LRExist}} 
+                      </div> 
+                   
+                    <button type="button" class="btn btn-sm btn-info" (click)="popen(pmymodal,txtlr.value)">GO</button>
+            </form>
+            <li class="nav-item dropdown" ngbDropdown>
+                <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+                    <i class="fa fa-user"></i> {{custnm}} <b class="caret"></b>
+                </a>
+                <div class="dropdown-menu-right" ngbDropdownMenu>
+                    <a class="dropdown-item" [routerLink]="['/suggestion']">
+                        <i class="fa fa-lightbulb-o"></i> {{ 'Feedback' | translate }}
+                    </a>
+                    <a class="dropdown-item" href="javascript:void(0)">
+                        <i class="fa fa-comments-o"></i> {{ 'Suggestion' | translate }}
+                    </a>
+                    <a class="dropdown-item" href="javascript:void(0)">
+                        <i class="fa fa-key"></i> {{ 'Change Password' | translate }}
+                    </a>
+                    <a class="dropdown-item" [routerLink]="['/login']" (click)="onLoggedout()">
+                        <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<ng-template #pmymodal let-modal>
+    <div class="modal-header bg-success">
+        <h4 class="modal-title" style="color: #ffffff;" id="modal-basic-title">Shipment Information</h4>
+        <button type="button" class="close" aria-label="Close" style="color: #ffffff;"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <mat-horizontal-stepper>
+            <mat-step label="Pickup" state="home">
+                <div class="row" *ngFor="let x of lrpickup.data">
+                    <div class="card-group">
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Customer</h5>
+                                <p class="card-text">{{x.custnm}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Date</h5>
+                                <p class="card-text">{{x.dated}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">From City</h5>
+                                <p class="card-text">{{x.from_loc}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">To City</h5>
+                                <p class="card-text">{{x.to_loc}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Vehicle No</h5>
+                                <p class="card-text">{{x.vehicleno}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-group">
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Vehicle Type</h5>
+                                <p class="card-text">{{x.vehicletype}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Lodability</h5>
+                                <p class="card-text">{{x.lodability}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Actual Weight</h5>
+                                <p class="card-text">{{x.actuwt}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">PKG No</h5>
+                                <p class="card-text">{{x.pkgsno}}</p>
+                            </div>
+                        </div>
+                        <div class="card border-success" style="max-width: 20rem;">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">CLVD</h5>
+                                <p class="card-text">{{x.clvd}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-group">
+                        <div class="card border-success">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Consignee</h5>
+                                <p class="card-text">{{x.consignee}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-group">
+                        <div class="card border-success">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Consignor</h5>
+                                <p class="card-text">{{x.consignor}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <button mat-button matStepperNext class="float-right next round">NEXT</button>
+                </div>
+            </mat-step>
+            <mat-step label="In Transit" state="directions_bus">
+                <div class="row" *ngFor="let x of lrintrans.data">
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Vehicle No.</h5>
+                                <p class="card-text">{{x.vehicleno}}</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Current Location</h5>
+                                <p class="card-text">{{x.location}}</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">EDA</h5>
+                                <p class="card-text">{{x.eda}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious class="float-right previous round">Back</button>
+                    <button mat-button matStepperNext class="float-right next round">Next</button>
+                </div>
+            </mat-step>
+            <mat-step label="Standing For Unloading" [completed]="completed" state="directions_bus">
+                <div class="row" *ngFor="let x of lrsfu.data">
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Vehicle No.</h5>
+                                <p class="card-text">{{x.vehicleno}}</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Arrival Date/Time</h5>
+                                <p class="card-text">{{x.Arivaldatetime}}</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Standing from Hrs.</h5>
+                                <p class="card-text">{{x.tothrs}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious class="float-right previous round">Back</button>
+                    <button mat-button matStepperNext class="float-right next round">Next</button>
+                </div>
+            </mat-step>
+            <mat-step label="Unloaded" state="directions_bus">
+                <div class="row" *ngFor="let x of lrunload.data">
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Vehicle No.</h5>
+                                <p class="card-text">{{x.vehicleno}}</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Arrival Date/Time</h5>
+                                <p class="card-text">{{x.arrivaldatetime}}</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Unloading finished date & time</h5>
+                                <p class="card-text">{{x.unloadingfinishdaetime}} </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">Exit date & time</h5>
+                                <p class="card-text">{{x.exitdatetime}} </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">CUVD</h5>
+                                <p class="card-text">{{x.cuvd}} </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-body text-success">
+                                <h5 class="card-title">POD VIEW</h5>
+                                <p class="card-text">
+                                    <a [href]="x.podstatus==='View'?x.pod:null" target="_blank">{{x.podstatus}}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>

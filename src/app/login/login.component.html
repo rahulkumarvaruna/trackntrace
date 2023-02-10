@@ -1,0 +1,84 @@
+<body>
+	<div class="login_bg">
+		<div class="container">
+			<div class="main_box_wrap">
+				<div class="box_left">
+					<a href="#" class="logo">
+						<img src="../../assets/images/logo.png" alt="">
+					</a>
+					<div class="intro_text">
+						<div class="text_lg">V-Track</div>
+						<div class="text_thin">
+							Complete visibility of your inventory on wheels.
+						</div>
+					</div>
+					<div class="tag_msg">
+						<img src="../../assets/images/tag-msg.png" alt="">
+					</div>
+				</div>
+				<div class="box_right">
+					<div class="form_section">
+						<div class="form_section_body_wrapper">
+							<div class="form_section_body">
+								<form class="form" [formGroup]="LoginForm"
+									(ngSubmit)="onSubmit(UserName.value,Password.value)">
+									<div class="form_section_inner">
+										<div class="form_group">
+											<input type="text" class="form_control" formControlName="email" #UserName
+												ngModel name="UserName" class="form_control input-underline input-lg"
+												[ngClass]="{'is-invalid':LoginForm.get('email').touched && LoginForm.get('email').invalid}"
+												placeholder="{{ 'UserName' | translate }}.">
+												<i alt="show" class="fa fa-user view_pwd" 
+											></i>
+											<div class="invalid p-2" *ngIf="LoginForm.get('email').touched && LoginForm.get('email').invalid">
+												<div> User Id is required. </div>
+											</div>
+										</div>
+										<div class="form_group">
+											<input class="form_control" formControlName="password" #Password ngModel
+												name="Password" class="form_control input-underline input-lg"
+												[type]="showPassword ? 'text' : 'password'"
+												[ngClass]="{'is-invalid':LoginForm.get('password').touched && LoginForm.get('password').invalid}"
+												placeholder="{{ 'Password' | translate }}" required>
+											<div class="invalid p-2" *ngIf="LoginForm.get('password').touched && LoginForm.get('password').invalid">
+												<div> Password is required. </div>
+											</div>
+											<i alt="show" class="fa fa-eye eye-show view_pwd" 
+											(click)="showPassword = !showPassword"
+											[class.hide]="showPassword"></i>
+											<i alt="hide" class="fa fa-eye-slash eye-hide view_pwd" 
+											(click)="showPassword = !showPassword"
+											[class.hide]="!showPassword"></i>
+											<!-- <span class="view_pwd"></span> -->
+											<!-- <input type="Password" class="form_control" placeholder="Password" name="" autocomplete="off">
+								<span class="view_pwd"></span> -->
+										</div>
+										<ul class="btn_sec">
+											<li><!-- <button type="button" class="btn_main">Login</button> --> <a
+													href="#" class="forgot_psd">Forgot Password?</a></li>
+											<li>
+												<button type="submit" class="btn_main" id="btnLogin"
+													[disabled]="!LoginForm.valid">Login</button>
+											</li>
+										</ul>
+									</div>
+								</form>
+								<div class="form_footer">
+									<ul class="footer_link">
+										<li><a href="#">Cookie Policy </a></li>
+										<li><a href="#">Terms of Use </a></li>
+										<li><a href="#"> Privacy Policy </a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clearboth"></div>
+				<div class="tag_msg_mob">
+					<img src="../../assets/images/tag-msg.png" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>

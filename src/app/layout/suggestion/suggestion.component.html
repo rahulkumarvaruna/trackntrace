@@ -1,0 +1,261 @@
+<div [@routerTransition]>
+
+  <form [formGroup]="feedback" (ngSubmit)="onSubmit()">
+    <div class="col-12 col-md-12">
+
+      <hr>
+      <div style="color: #155724;background-color: #d4edda;border-color:#d4edda;" class="alert alert-success"
+        role="alert">
+        <h4 class="alert-heading">HI</h4>
+        <p>Thanks for using Varuna logistics. We really appreciate you using our transportation services. to help us
+          improve we would request you to answer a few questions. this will take hardly 2 minutes , but will go a long
+          way in motivating us and help US improve further.</p>
+        <hr>
+        <p class="mb-0">Thanks</p>
+        <p class="mb-0">Team Varuna</p>
+      </div>
+      <hr>
+      <div class="table-responsive">
+        <div class="form-check form-check-inline">
+          <input type="radio" class="form-check-input" checked="true" id="materialInline1" name="inlineMaterialRadiosExample"
+          (click)="setradio('feedback')">
+          <label class="form-check-label" for="materialInline1">FEEDBACK</label>
+        </div>
+
+        <!-- Material inline 2 -->
+        <div class="form-check form-check-inline">
+          <input type="radio" class="form-check-input" id="materialInline2" 
+          name="inlineMaterialRadiosExample" (click)="setradio('suggestion')">
+          <label class="form-check-label" for="materialInline2">SUGGESTION</label>
+        </div>
+
+        <!-- Material inline 3 -->
+        <div class="form-check form-check-inline">
+          <input type="radio" class="form-check-input" id="materialInline3" 
+          name="inlineMaterialRadiosExample" (click)="setradio('complaint')">
+          <label class="form-check-label" for="materialInline3">COMPLAINT</label>
+        </div>
+      </div>
+      <hr>
+      <div *ngIf="isSelected('feedback')">
+        <ul>
+          <li>            
+            <label class="form-label form-label-top">
+              <div class="editor-container">
+                FILL YOUR SELF
+              </div>
+            </label>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-highlight">
+                <tbody>
+                  <tr>
+                    <th>&nbsp;</th>
+                    <th>
+                      <div>
+                        <div>EXCELLENT</div>
+                      </div>
+                    </th>
+                    <th>
+                      <div>
+                        <div>AVERAGE</div>
+                      </div>
+                    </th>
+                    <th>
+                      <div>
+                        <div>POOR</div>
+                      </div>
+                    </th>
+                    <th>
+                      <div>
+                        <div>REMARKS</div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr *ngFor="let x of question; let i = index">
+                    <th>
+                      <div>
+                        <div>{{x.question}}</div>
+                      </div>
+                    </th>
+                    <td style="text-align: center;">
+                      <input [id]=x.Excellent class="form-radio" type="radio" [checked]="x.idx === 0"
+                        [name]=x.abcdefghjklmnopqurs[i] tabindex="-1"
+                        aria-labelledby="label_3 label_3_row_0 label_3_col_0" value="E"
+                        (change)="onSelectionChange(x.recordid,$event.target.value)"></td>
+                    <td style="text-align: center;">
+                      <input [id]=x.Average class="form-radio" type="radio" [name]=x.abcdefghjklmnopqurs[i]
+                        tabindex="-1" [checked]="x.idx === 0" aria-labelledby="label_3 label_3_row_0 label_3_col_1"
+                        value="A" (change)="onSelectionChange(x.recordid,$event.target.value)"></td>
+                    <td style="text-align: center;">
+                      <input [id]=x.Poor class="form-radio" type="radio" [name]=x.abcdefghjklmnopqurs[i] tabindex="-1"
+                        [checked]="x.idx === 0" aria-labelledby="label_3 label_3_row_0 label_3_col_2" value="P"
+                        (change)="onSelectionChange(x.recordid,$event.target.value)"></td>
+                    <td style="text-align: center;"><textarea class="form-control" rows="1" [id]=x.remarks
+                        (blur)="onremarks(x.recordid,$event.target.value)"></textarea>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <li>
+            <div><label class="form-label form-label-top form-label-auto">
+                <div>
+                  <div>YOUR FEED BACK IN DETAIL</div>
+                </div>
+              </label>
+              <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+                  style="vertical-align: top;"><textarea class="form-control" formControlName="feedbackdetails"
+                    [ngClass]="{ 'is-invalid': submitted && f.feedbackdetails.errors }" rows="3"></textarea>
+                  <div *ngIf="submitted && f.feedbackdetails.errors" class="invalid-feedback">
+                    <div *ngIf="f.feedbackdetails.errors.required">YOUR FEEDBACK DETAIL is required</div>
+                  </div>
+                  <span class="form-sub-label">
+                  </span></span></div>
+            </div>
+          </li>
+          <li>
+            <div><label class="form-label form-label-top form-label-auto">
+                <div>
+                  <div>YOUR VISISTNG CARD</div>
+                </div>
+              </label>
+              <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+                  style="vertical-align: top;">
+                  <div class="form-group">
+                    <input type="file" formControlName="image" (change)="fileProgress($event)" />
+                  </div>
+                </span>
+                <div *ngIf="fileUploadProgress">
+                  Upload progress: {{ fileUploadProgress }}
+                </div>
+                <div class="image-preview mb-3" *ngIf="previewUrl">
+                  <img [src]="previewUrl" height="300" />
+                </div>
+
+                <div class="mb-3" *ngIf="uploadedFilePath">
+                  {{uploadedFilePath}}
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div><label class="form-label form-label-top form-label-auto">
+                <div>
+                  <div>Name</div>
+                </div>
+              </label>
+              <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+                  style="vertical-align: top;">
+                  <input type="text" formControlName="Name" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+                  <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                    <div *ngIf="f.Name.errors.required">Name is required</div>
+                  </div>
+                  <span class="form-sub-label">
+                  </span>
+                </span></div>
+            </div>
+          </li>
+          <li>
+            <div><label class="form-label form-label-top form-label-auto">
+                <div>
+                  <div>DESIGNATION</div>
+                </div>
+              </label>
+              <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+                  style="vertical-align: top;">
+                  <input type="text" formControlName="DESIGNATION" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.DESIGNATION.errors }">
+                  <div *ngIf="submitted && f.DESIGNATION.errors" class="invalid-feedback">
+                    <div *ngIf="f.DESIGNATION.errors.required">Designation Name is required</div>
+                  </div>
+                  <span class="form-sub-label">
+                  </span>
+                </span></div>
+            </div>
+          </li>
+          <li>
+            <div><label class="form-label form-label-top form-label-auto">
+                <div>
+                  <div>EMAIL</div>
+                </div>
+              </label>
+              <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+                  style="vertical-align: top;">
+                  <input type="text" formControlName="email" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">email is required</div>
+                  </div>
+                  <span class="form-sub-label">
+                  </span>
+                </span></div>
+            </div>
+          </li>
+          <li>
+            <div><label class="form-label form-label-top form-label-auto">
+                <div>
+                  <div>Mobile No</div>
+                </div>
+              </label>
+              <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+                  style="vertical-align: top;">
+                  <input type="text" class="form-control" maxlength="10" (keypress)="numberOnly($event)"
+                    formControlName="mobileNo" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.mobileNo.errors }"> <span class="form-sub-label">
+                    <div *ngIf="submitted && f.mobileNo.errors" class="invalid-feedback">
+                      <div *ngIf="f.mobileNo.errors.required">Mobile No is required</div>
+                    </div>
+                  </span></span></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="isSelected('suggestion')">  
+       <ul>
+         <li>
+          <label class="form-label form-label-top form-label-auto">
+            <div>
+              <div>YOUR SUGGESTION</div>
+            </div>
+          </label>
+          <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+              style="vertical-align: top;"><textarea class="form-control" formControlName="feedbackdetails"
+                [ngClass]="{ 'is-invalid': submitted && f.feedbackdetails.errors }" rows="3"></textarea>
+              <div *ngIf="submitted && f.feedbackdetails.errors" class="invalid-feedback">
+                <div *ngIf="f.feedbackdetails.errors.required">YOUR FEEDBACK DETAIL is required</div>
+              </div>
+              <span class="form-sub-label">
+              </span></span></div>
+         </li>
+       </ul> 
+     </div> 
+     <div *ngIf="isSelected('complaint')">  
+      <ul>
+        <li>
+         <label class="form-label form-label-top form-label-auto">
+           <div>
+             <div>YOUR COMPLAINT</div>
+           </div>
+         </label>
+         <div class="form-input-wide" style="position: relative;"><span class="form-sub-label-container"
+             style="vertical-align: top;"><textarea class="form-control" formControlName="feedbackdetails"
+               [ngClass]="{ 'is-invalid': submitted && f.feedbackdetails.errors }" rows="3"></textarea>
+             <div *ngIf="submitted && f.feedbackdetails.errors" class="invalid-feedback">
+               <div *ngIf="f.feedbackdetails.errors.required">YOUR FEEDBACK DETAIL is required</div>
+             </div>
+             <span class="form-sub-label">
+             </span></span></div>
+        </li>
+      </ul> 
+    </div> 
+    </div>
+    <div></div>
+    <div class="row">
+      <div class="col-lg-12">
+        <button style="margin: 5px;" class="btn btn-warning float-right">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
