@@ -101,7 +101,9 @@ export class LoginComponent implements OnInit {
       });
     },
     (err: HttpErrorResponse) => {
+      debugger
       this.isLoginError = true;
+      alert('Invalid Authentication... ❌')
     });
   }
 }
