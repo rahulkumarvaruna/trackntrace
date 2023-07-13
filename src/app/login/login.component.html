@@ -15,10 +15,24 @@
 					<div class="tag_msg">
 						<img src="../../assets/images/tag-msg.png" alt="">
 					</div>
+
 				</div>
-				<div class="box_right">
+				<div class="box_right" *ngIf="this.pageActivatio===''">
 					<div class="form_section">
-						<div class="form_section_body_wrapper">
+						<form class="form-inline my-2 my-lg-0">
+
+							<input class="form-control w-50 mr-sm-2 mb-2 form_control" type="text"
+								placeholder="Track LR / shipment" #txtlr (change)="CheckLR(txtlr.value)" />
+
+							<button type="button" class="btn  btn-info form_control2 mb-2"
+								(click)="popen(pmymodal,txtlr.value)">GO</button>
+
+						</form>
+						<span *ngIf="LRExist != ''"
+							class="alert alert-danger alert-dismissible fade show alershow w-25 float-lg-right">
+							{{LRExist}}
+						</span>
+						<div class="form_section_body_wrapper m-1">
 							<div class="form_section_body">
 								<form class="form" [formGroup]="LoginForm"
 									(ngSubmit)="onSubmit(UserName.value,Password.value)">
@@ -28,9 +42,9 @@
 												ngModel name="UserName" class="form_control input-underline input-lg"
 												[ngClass]="{'is-invalid':LoginForm.get('email').touched && LoginForm.get('email').invalid}"
 												placeholder="{{ 'UserName' | translate }}.">
-												<i alt="show" class="fa fa-user view_pwd" 
-											></i>
-											<div class="invalid p-2" *ngIf="LoginForm.get('email').touched && LoginForm.get('email').invalid">
+											<i alt="show" class="fa fa-user view_pwd"></i>
+											<div class="invalid p-2"
+												*ngIf="LoginForm.get('email').touched && LoginForm.get('email').invalid">
 												<div> User Id is required. </div>
 											</div>
 										</div>
@@ -40,22 +54,22 @@
 												[type]="showPassword ? 'text' : 'password'"
 												[ngClass]="{'is-invalid':LoginForm.get('password').touched && LoginForm.get('password').invalid}"
 												placeholder="{{ 'Password' | translate }}" required>
-											<div class="invalid p-2" *ngIf="LoginForm.get('password').touched && LoginForm.get('password').invalid">
+											<div class="invalid p-2"
+												*ngIf="LoginForm.get('password').touched && LoginForm.get('password').invalid">
 												<div> Password is required. </div>
 											</div>
-											<i alt="show" class="fa fa-eye eye-show view_pwd" 
-											(click)="showPassword = !showPassword"
-											[class.hide]="showPassword"></i>
-											<i alt="hide" class="fa fa-eye-slash eye-hide view_pwd" 
-											(click)="showPassword = !showPassword"
-											[class.hide]="!showPassword"></i>
+											<i alt="show" class="fa fa-eye eye-show view_pwd"
+												(click)="showPassword = !showPassword" [class.hide]="showPassword"></i>
+											<i alt="hide" class="fa fa-eye-slash eye-hide view_pwd"
+												(click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
 											<!-- <span class="view_pwd"></span> -->
 											<!-- <input type="Password" class="form_control" placeholder="Password" name="" autocomplete="off">
 								<span class="view_pwd"></span> -->
 										</div>
 										<ul class="btn_sec">
 											<li><!-- <button type="button" class="btn_main">Login</button> --> <a
-													href="#" class="forgot_psd">Forgot Password?</a></li>
+													(click)="forgot_password_page()" class="forgot_psd"
+													style="cursor: pointer;">Forgot Password?</a></li>
 											<li>
 												<button type="submit" class="btn_main" id="btnLogin"
 													[disabled]="!LoginForm.valid">Login</button>
@@ -74,6 +88,106 @@
 						</div>
 					</div>
 				</div>
+				<!-- ...open_forgot -->
+				<div class="box_right" *ngIf="this.pageActivatio==='forgot_page'">
+					<div class="form_section">
+						<div class="form_section_body_wrapper m-1">
+							<div class="form_section_body">
+								<form class="form">
+									<div class="form_section_inner">
+										<div class="form_group">
+											<input type="text" class="form_control" #customeCode name="UserName"
+												class="form_control input-underline input-lg"
+												placeholder="Enter customer code">
+											<i alt="show" class="fa fa-code view_pwd"></i>
+											<div class="invalid p-2">
+												<div>enter your customer code to generate otp.? </div>
+											</div>
+										</div>
+										<ul class="btn_sec">
+											<li>
+												<button type="submit" class="btn_main" id="btnLogin"
+													(click)="generte_otp(customeCode)">click here to generate
+													otp?</button>
+												<span class="text-center float-lg-right"><a
+														style="cursor: pointer;color: darkslateblue;"
+														(click)="this.pageActivatio=''">Back to login</a></span>
+											</li>
+										</ul>
+									</div>
+								</form>
+								<div class="form_footer">
+									<ul class="footer_link">
+										<li><a href="#">Cookie Policy </a></li>
+										<li><a href="#">Terms of Use </a></li>
+										<li><a href="#"> Privacy Policy </a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ...close_forgot -->
+				<!-- ...open email sent -->
+				<div class="box_right" *ngIf="this.pageActivatio==='email_sent_for_otp'">
+					<div class="form_section">
+						<div class="form_section_body_wrapper m-1">
+							<div class="form_section_body">
+								<form class="form">
+									<div class="form_section_inner">
+										<div class="form_group">
+
+										</div>
+										<span style="color: cornflowerblue;">You have requested to reset your password
+											otp sent to your registered mobile number
+											check your messesges ?</span> 
+									</div>
+								</form>
+								<div class="form_footer">
+									<ul class="footer_link">
+										<li><a href="#">Cookie Policy </a></li>
+										<li><a href="#">Terms of Use </a></li>
+										<li><a href="#"> Privacy Policy </a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ...close email sent -->
+				<!-- ...open_forgot -->
+				<div class="box_right" *ngIf="this.pageActivatio==='otp_page'">
+					<div class="form_section">
+						<div class="form_section_body_wrapper m-1">
+							<div class="form_section_body">
+								<form class="form">
+									<div class="form_section_inner">
+										<div class="form_group">
+											<input type="number" class="form_control" #otpdetails 
+											onKeyPress="if(this.value.length==6) return false;"
+												class="form_control input-underline input-lg"
+												placeholder="Enter Otp ">
+											<i alt="show" class="fa fa-code view_pwd"></i>
+											<div class="invalid p-2">
+												<div>Enter Otp ? to reset Password? </div>
+											</div>
+										</div>
+										<ul class="btn_sec">
+											<li>
+												<button type="button" class="btn_main"
+												(click)="otp_details(otpdetails)"
+											>click here to reset password ?</button>
+												
+											</li>
+										</ul>
+									</div>
+								</form>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ...close_forgot -->
 				<div class="clearboth"></div>
 				<div class="tag_msg_mob">
 					<img src="../../assets/images/tag-msg.png" alt="">
@@ -81,4 +195,169 @@
 			</div>
 		</div>
 	</div>
+	<ng-template #pmymodal let-modal>
+		<div class="modal-header bg-success">
+			<h4 class="modal-title" style="color: #ffffff;" id="modal-basic-title">Shipment Information</h4>
+			<button type="button" class="close" aria-label="Close" style="color: #ffffff;"
+				(click)="modal.dismiss('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="container">
+				<div class="row" *ngFor="let x of lrpickup.data">
+					<div class="col-sm card p-2 m-1">
+						<h5><b>Customer</b></h5>
+						<span class="p-1">{{x.custnm}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>Date</b></h5>
+						<span class="p-1">{{x.dated}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>From City</b></h5>
+						<span class="p-1">{{x.from_loc}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>To City</b></h5>
+						<span class="p-1">{{x.to_loc}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>Vehicle No
+							</b></h5>
+						<span class="p-1">{{x.vehicleno}}</span>
+					</div>
+				</div>
+				<div class="row" *ngFor="let x of lrpickup.data">
+					<div class="col-sm card p-2 m-1">
+						<h5><b>Vehicle Type</b></h5>
+						<span class="p-1">{{x.vehicletype}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>Lodability</b></h5>
+						<span class="p-1">{{x.lodability}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>Actual Weight</b></h5>
+						<span class="p-1">{{x.actuwt}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>PKG No</b></h5>
+						<span class="p-1">{{x.pkgsno}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+						<h5><b>CLVD
+							</b></h5>
+						<span class="p-1">{{x.clvd}}</span>
+					</div>
+				</div>
+				<!-- <div class="row" *ngFor="let x of lrpickup.data">
+					<div class="col-sm card p-2 m-1" >
+					  <h5><b>Consignee</b></h5>
+					  <span class="p-1">{{x.consignee}}</span>
+					</div>
+					<div class="col-sm card p-2 m-1">
+					  <h5><b>Consignor</b></h5>
+					  <span class="p-1">{{x.consignor}}</span>
+					</div>
+				
+				  </div> -->
+			</div>
+			<!-- <mat-horizontal-stepper>
+				<mat-step label="Pickup" state="home"> -->
+			<!-- <div class="row" *ngFor="let x of lrpickup.data">
+						<div class="card-group">
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">Customer</h5>
+									<p class="card-text">{{x.custnm}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">Date</h5>
+									<p class="card-text">{{x.dated}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">From City</h5>
+									<p class="card-text">{{x.from_loc}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">To City</h5>
+									<p class="card-text">{{x.to_loc}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">Vehicle No</h5>
+									<p class="card-text">{{x.vehicleno}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="card-group">
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">Vehicle Type</h5>
+									<p class="card-text">{{x.vehicletype}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">Lodability</h5>
+									<p class="card-text">{{x.lodability}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">Actual Weight</h5>
+									<p class="card-text">{{x.actuwt}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">PKG No</h5>
+									<p class="card-text">{{x.pkgsno}}</p>
+								</div>
+							</div>
+							<div class="card border-success" style="max-width: 20rem;">
+								<div class="card-body text-success">
+									<h5 class="card-title">CLVD</h5>
+									<p class="card-text">{{x.clvd}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="card-group">
+							<div class="card border-success">
+								<div class="card-body text-success">
+									<h5 class="card-title">Consignee</h5>
+									<p class="card-text">{{x.consignee}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="card-group">
+							<div class="card border-success">
+								<div class="card-body text-success">
+									<h5 class="card-title">Consignor</h5>
+									<p class="card-text">{{x.consignor}}</p>
+								</div>
+							</div>
+						</div>
+						<div>
+						</div>
+					</div> -->
+			<br />
+
+			<!-- </mat-step>
+
+			</mat-horizontal-stepper> -->
+		</div>
+
+		<div class="modal-footer m-1 p-1">
+			<button type="button" class="btn btn-sm btn-dark p-2" (click)="modal.close('Save click')">Close</button>
+		</div>
+	</ng-template>
 </body>

@@ -1,0 +1,13 @@
+	<div class="input-group">
+					<input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
+					(keyup)="search_input($event)">
+					<div class="input-group-append">
+					  <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+					
+					</div>
+				  </div>
+                    search_input(event:any){
+if(event.target.value.length>9){
+  alert("api called")
+}
+  }
