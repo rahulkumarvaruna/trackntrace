@@ -45,11 +45,11 @@ public checkString(usrstr): any {
   // this.checkString(usrstr)
 
   getOtpBycustomerCode(customerCode:any){
-    let url=`http://erpapinew.varuna.net/vilmobile/VarunaPump/GenerateOTPCustomerPortal?CustomerCode=${customerCode}`
+    let url=`https://erpapinew.varuna.net/vilmobile/VarunaPump/GenerateOTPCustomerPortal?CustomerCode=${customerCode}`
   return url
   }
   getPasswordvarificationBycustCode_otp(customerCode:any,otp_details:any){
-    let url=`http://erpapinew.varuna.net/vilmobile/VarunaPump/Validate_CustomerPortalOTP?CustomerCode=${customerCode}&OTP=${otp_details}`
+    let url=`https://erpapinew.varuna.net/vilmobile/VarunaPump/Validate_CustomerPortalOTP?CustomerCode=${customerCode}&OTP=${otp_details}`
     return url
   }
 }
