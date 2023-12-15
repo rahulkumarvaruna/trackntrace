@@ -307,7 +307,7 @@ export class DashboardComponent implements OnInit {
     for (const key in this.hdata) {
       const hexceldata = new hdataexcel(this.hdata[key].DockNO, this.hdata[key].placementdt,
         this.hdata[key].vehicleno, this.hdata[key].from_loc, this.hdata[key].to_loc,
-        this.hdata[key].VehicleStatus, this.hdata[key].TTIME, this.hdata[key].etareport);
+        this.hdata[key].VehicleStatus+this.hdata[key].actionremarks, this.hdata[key].TTIME, this.hdata[key].etareport);
     this.exceList.push(hexceldata);
     }
     this.excelExportService.exportData(this.exceList, new IgxExcelExporterOptions('Placement_indent_history'));
