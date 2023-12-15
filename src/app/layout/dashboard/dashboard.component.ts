@@ -116,9 +116,15 @@ export class DashboardComponent implements OnInit {
           ''
       },
       {
+        imagePath: 'assets/images/7.png',
+        label: '',
+        text: ''
+      },
+      {
         imagePath: 'assets/images/2.png',
         label: '',
         text: ''
+        // 'Excellance is embedded in our organizational DAN. it is both our strength helping us constantly improve our oprational effectiveness,'
       },
       {
         imagePath: 'assets/images/3.png',
@@ -131,7 +137,19 @@ export class DashboardComponent implements OnInit {
         label: '',
         text: ''
         // 'Excellance is embedded in our organizational DAN. it is both our strength helping us constantly improve our oprational effectiveness,'
-      }
+      },
+      {
+        imagePath: 'assets/images/5.png',
+        label: '',
+        text: ''
+        // 'Excellance is embedded in our organizational DAN. it is both our strength helping us constantly improve our oprational effectiveness,'
+      },
+      {
+        imagePath: 'assets/images/6.png',
+        label: '',
+        text: ''
+        // 'Excellance is embedded in our organizational DAN. it is both our strength helping us constantly improve our oprational effectiveness,'
+      },
     );
   }
   ngOnInit() {

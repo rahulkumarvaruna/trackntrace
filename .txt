@@ -11,3 +11,4 @@ if(event.target.value.length>9){
   alert("api called")
 }
   }
+  ng build --prod --base-href /trackntrace/
